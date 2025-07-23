@@ -1,4 +1,4 @@
-// Premium- MEETING ROOM 2
+// LC Premium Question- MEETING ROOM 2
 
 class Solution {
     public int minMeetingRooms(int[][] intervals) {

@@ -1,0 +1,81 @@
+2 solutions available, 
+
+first solution only gives an basic understanding of brute force but passes only 43/51 tests.
+// solution 1:
+class Solution {
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        if (nums == null || nums.length == 0) return new int[0];
+        List<Integer> newlist= new ArrayList<>();
+        int[] finarr= new int[nums.length-k+1];
+        int left=0;
+        int right=0;
+        int n=nums.length;
+        int max=0;
+        while(right<n){
+            int window= right-left+1;
+            if(window<k){
+                right++;
+            }
+            else if(window==k){
+                    for(int i=left;i<=right;i++){
+                        max=Math.max(max, nums[i]);
+
+                    }
+                    newlist.add(max);
+                    max=Integer.MIN_VALUE;
+
+                    left++;
+                    right++;
+            }
+
+
+        }
+        int index=0;
+        for(int i: newlist){
+            finarr[index]=i;
+            index++;
+
+        }
+
+        return finarr;
+        
+    }
+}
+
+
+
+// The second solution uses deque, a better appraoch for optimizing and keeping track of indexes and removing front and back lower numbers. Passes 51/51 tests.
+class Solution {
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        if (nums == null || nums.length == 0) return new int[0];
+
+        // Deque to store the indices of elements in the window
+        Deque<Integer> dq = new ArrayDeque<>();
+        int[] result = new int[nums.length - k + 1];
+        int resIndex = 0;
+
+        // Process the array with a single loop
+        for (int i = 0; i < nums.length; i++) {
+            // Remove elements from the front of the deque if they are out of the current window
+            if (!dq.isEmpty() && dq.peekFirst() < i - k+1) {
+                dq.pollFirst();
+            }
+
+            // Remove elements from the back of the deque if they are smaller than the current element
+            // They are not useful since the current element will be a better candidate for max
+            while (!dq.isEmpty() && nums[dq.peekLast()] <= nums[i]) {
+                dq.pollLast();
+            }
+
+            // Add the current element's index to the deque
+            dq.offerLast(i);
+
+            // Once we've processed the first k elements, we can start recording the result
+            if (i >= k-1) {
+                result[resIndex++] = nums[dq.peekFirst()];
+            }
+        }
+
+        return result;
+    }
+}

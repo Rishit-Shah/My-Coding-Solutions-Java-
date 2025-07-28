@@ -1,0 +1,89 @@
+class Solution {
+    public int trapRainWater(int[][] heightMap) {
+        
+// 🧠 Rule of Thumb:
+// A cell can trap water only if its height is less than the height of all its boundary neighbors — specifically, the minimum height among the surrounding boundary cells must be greater than the current cell.
+
+// So:
+
+// If the current cell height ≥ any boundary height, water will overflow, and no water is trapped.
+
+// If the current cell height < all surrounding boundary heights, water can be trapped, up to the level of the lowest boundary.
+
+
+
+
+
+
+
+
+       // so its a 2d grid so cant be less thatn 3x3 size;
+       if(heightMap == null || heightMap.length<=2 || heightMap[0].length<=0) return 0;
+
+       int rows= heightMap.length;
+       int col= heightMap[0].length;
+       boolean[][] visited= new boolean[rows][col];
+       PriorityQueue<Cell> pq= new PriorityQueue<>((a,b)-> a.height-b.height);
+
+       // adding border cells (first and last columns)
+       for(int r=0;r<rows;r++){
+        pq.offer(new Cell(r,0,heightMap[r][0]));
+        pq.offer(new Cell(r, col-1, heightMap[r][col-1]));
+        visited[r][0]=true;
+        visited[r][col-1]=true;
+
+       } 
+
+    // adding border cells (first and last rows)
+       for(int c=0;c<col-1;c++){
+        pq.offer(new Cell(0,c,heightMap[0][c]));
+        pq.offer(new Cell(rows-1, c, heightMap[rows-1][c]));
+        visited[0][c]=true;
+        visited[rows-1][c]=true;
+       } 
+
+
+//        Why only borders?
+
+// Because water can’t escape beyond the border, and we build from the outer walls inwards.
+
+int watertrapped=0;
+int[][] directions= {{-1,0}, {1,0}, {0,-1}, {0,1}};
+
+while(!pq.isEmpty()){
+    Cell cell=pq.poll();
+
+    for(int[] dir: directions){
+        int nr= cell.row+dir[0];
+        int nc= cell.col+dir[1];
+
+        //Skip if the neighbor is out of bounds or already visited.
+        if(nr<0 || nc<0 || nr>=rows || nc>=col|| visited[nr][nc]) continue;
+
+        // mark neighbour visited and if the neighbor’s height is lower than current wall, water can be trapped.
+        visited[nr][nc]=true;
+        watertrapped+=Math.max(0, cell.height-heightMap[nr][nc]);
+
+        pq.offer(new Cell(nr, nc,Math.max(cell.height, heightMap[nr][nc])));
+
+      
+    }
+
+}
+
+  return watertrapped;
+
+}
+    
+
+class Cell{
+    int row, col, height;
+    public Cell(int row, int col, int height){
+        this.row=row;
+        this.col=col;
+        this.height=height;
+
+    }
+}
+
+}

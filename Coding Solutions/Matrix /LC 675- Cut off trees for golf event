@@ -1,0 +1,80 @@
+class Solution {
+    public int cutOffTree(List<List<Integer>> forest) {
+
+        int rows=forest.size();
+        int col=forest.get(0).size();
+        List<int[]> list= new ArrayList<>();
+
+        //first step is to collect all tree position>=1
+        for(int i=0;i<rows;i++){
+            for(int j=0;j<col;j++){
+                int height=forest.get(i).get(j);
+                if(height>1){
+                    list.add(new int[]{height, i, j});
+
+                }
+            }
+
+        }
+
+        // now sort the added heights;
+        list.sort((a, b) -> Integer.compare(a[0], b[0]));
+
+
+        int totalsteps=0;
+        int startrow=0, startcol=0;
+
+        // explore neighbours using BFS
+        for(int[] trees:list){
+            int steps=bfs(forest, startrow, startcol,trees[1], trees[2]);
+            if(steps == -1) return -1;
+            totalsteps+=steps;
+            startrow=trees[1];
+            startcol=trees[2];
+
+        }
+
+        return totalsteps;
+    
+
+    }
+
+    public int bfs(List<List<Integer>> forest, int sr, int sc, int tr, int tc){
+        if (sr == tr && sc == tc) return 0;
+
+        int rows=forest.size();
+        int col=forest.get(0).size();
+        boolean[][] visited= new boolean[rows][col];
+        int[][] directions= {{0,1}, {0,-1}, {-1,0}, {1,0}};
+        Queue<int[]> q= new LinkedList<>();
+        q.offer(new int[] {sr,sc});
+        visited[sr][sc]=true;
+        int steps=0;
+
+        while(!q.isEmpty()){
+            int size=q.size();
+            steps++;
+            for(int i=0;i<size;i++){
+                int[] cell=q.poll();
+                for(int[] dir:directions){
+                    
+                    int newrow= cell[0]+ dir[0] ;
+                    int newcol=cell[1]+dir[1];
+
+                    if(newrow>=0 && newrow<rows && newcol>=0 &&newcol<col && !visited[newrow][newcol] && forest.get(newrow).get(newcol)!=0){
+                        if(newrow==tr && newcol==tc) return steps;
+                        visited[newrow][newcol]=true;
+                        q.offer(new int[]{newrow, newcol});
+
+                    }
+
+
+                }
+
+            }
+
+        }
+    return -1;
+
+    }
+}

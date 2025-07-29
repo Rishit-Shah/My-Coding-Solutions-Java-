@@ -38,6 +38,7 @@ class Solution {
     
 
     }
+// tc and tr are target row and columns 
 
     public int bfs(List<List<Integer>> forest, int sr, int sc, int tr, int tc){
         if (sr == tr && sc == tc) return 0;

@@ -1,0 +1,78 @@
+class Solution {
+    public int shortestDistance(int[][] grid) {
+
+
+  // key idea :
+//   “Does it find a grid that has closest distance to all buildings?”
+
+// ✅ Absolutely. That’s exactly the goal.
+
+
+
+        int row=grid.length;
+        int col=grid[0].length;
+        int[][] distance = new int[row][col];
+        int[][] reach= new int[row][col];
+        int totalbuildings=0;
+        int[] dr= {-1,1,0,0};
+        int[] dc={0,0,-1,1};
+
+        for(int i=0;i<row;i++){
+            for(int j=0;j<col;j++){
+                if(grid[i][j]==1){
+                    totalbuildings++;
+                    bfs(grid, i, j, distance, reach, dr, dc );
+
+                }
+
+            }
+
+        }
+        int mindist=Integer.MAX_VALUE;
+        for(int i=0;i<row;i++){
+            for(int j=0;j<col;j++){
+                if(grid[i][j]==0 && reach[i][j]==totalbuildings){
+                    mindist=Math.min(mindist, distance[i][j]);
+
+                }
+
+            }
+
+        }
+        return mindist == Integer.MAX_VALUE ? -1 : mindist;
+
+        
+    }
+
+public void bfs(int[][] grid, int row, int col, int[][] distance, int[][] reach, int[] dr, int[] dc){
+
+int m = grid.length, n = grid[0].length;
+        boolean[][] visited = new boolean[m][n];
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(new int[] {row, col});
+        visited[row][col] = true;
+        int level = 1;
+
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                int[] curr = queue.poll();
+                for (int d = 0; d < 4; d++) {
+                    int newRow = curr[0] + dr[d];
+                    int newCol = curr[1] + dc[d];
+
+                    // Check bounds and if cell is unvisited and is empty land (0)
+                    if (newRow >= 0 && newRow < m && newCol >= 0 && newCol < n &&
+                        !visited[newRow][newCol] && grid[newRow][newCol] == 0) {
+                        
+                        visited[newRow][newCol] = true;
+                        distance[newRow][newCol] += level;
+                        reach[newRow][newCol]++;
+                        queue.offer(new int[] {newRow, newCol});
+                    }
+                }
+            }
+            level++;
+        }
+    }
+    }

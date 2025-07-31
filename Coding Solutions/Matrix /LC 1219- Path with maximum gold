@@ -1,1 +1,50 @@
 
+// DFS approach
+class Solution {
+
+      private int[][] directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+     private int rows, cols;
+
+    public int getMaximumGold(int[][] grid) {
+        
+        rows=grid.length;
+        cols=grid[0].length;
+        int maxgold=0;
+
+        for(int i=0;i<rows;i++){
+            for(int j=0;j<cols;j++){
+                if(grid[i][j]!=0){
+                    maxgold=Math.max(maxgold, dfs(grid, i, j));
+
+                }
+
+            }
+
+        }
+
+        return maxgold;
+
+    }
+
+    public int dfs(int[][] grid, int i, int j){
+        if(i<0 || j<0 || i>=rows || j>=cols || grid[i][j]==0){
+            return 0;
+
+        }
+        int current=grid[i][j];
+        grid[i][j]=0;
+        int maxgold=0;
+        for(int[] d: directions){
+            int newrow= i +d[0];
+            int newcol= j +d[1];
+
+            maxgold= Math.max(maxgold, dfs(grid, newrow, newcol));
+
+        }
+
+        grid[i][j]=current;
+        return current+maxgold;
+
+
+    }
+}

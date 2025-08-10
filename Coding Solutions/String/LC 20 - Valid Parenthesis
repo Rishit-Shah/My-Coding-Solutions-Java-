@@ -1,6 +1,6 @@
 Two Solutions:
 
-Logic Basec:
+Logic Based:
 class Solution {
     public boolean isValid(String s) {
         
@@ -12,7 +12,7 @@ class Solution {
 }
 
 
-// stack based answer
+// Stack Based:
 class Solution {
     public boolean isValid(String s) {
         Stack<Character> stack = new Stack<>();

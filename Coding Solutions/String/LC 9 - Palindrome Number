@@ -1,1 +1,22 @@
+class Solution {
+    public boolean isPalindrome(int x) {
+         String string= String.valueOf(x);
+        char[] arr4= string.toCharArray();
+        if(arr4.length==1){
+            return true;
 
+        }else{
+        
+         for (int i=0; i< arr4.length;i++){
+            if(arr4[i]!=arr4[arr4.length-i-1]   ){
+                return false;
+
+            }
+
+        }
+       return true;
+        }   
+        
+        
+    }
+}

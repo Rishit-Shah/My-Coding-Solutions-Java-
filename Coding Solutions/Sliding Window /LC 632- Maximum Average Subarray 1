@@ -1,1 +1,15 @@
+class Solution {
+    public double findMaxAverage(int[] nums, int k) {
+            double avg=0;
+            for(int i=0;i<k;i++){
+                avg+=nums[i];
 
+            }
+            double secondavg=avg;
+            for(int i=k;i<nums.length;i++){
+                avg+=nums[i]-nums[i-k];
+                secondavg= Math.max(avg,secondavg);
+            }
+       return secondavg/k;
+    }
+}

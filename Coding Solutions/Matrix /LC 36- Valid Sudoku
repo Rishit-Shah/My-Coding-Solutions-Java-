@@ -1,0 +1,28 @@
+class Solution {
+    public boolean isValidSudoku(char[][] board) {
+        Set<String> newset= new HashSet<>();
+        for(int i=0;i<9;i++){
+            for(int j=0;j<9;j++){
+                if(board[i][j]!='.'){
+                    String b= board[i][j]+"";
+                    String rows= b+ "in row" + i;
+                    String cols= b + "in col"+j;
+
+                    String boxes= b+ "in box"+ i/3 +j/3;
+                    if(!newset.add(rows) || !newset.add(cols)|| !newset.add(boxes)){
+                        return false;
+
+                    }
+
+
+
+                }
+
+            }
+
+
+        }
+        return true;
+          
+    }
+}

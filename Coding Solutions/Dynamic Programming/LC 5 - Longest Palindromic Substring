@@ -1,0 +1,33 @@
+class Solution {
+    private static boolean isPalindrome(String str) {
+        int left = 0;
+        int right = str.length() - 1;
+        while (left < right) {
+            if (str.charAt(left) != str.charAt(right)) {
+                return false;
+            }
+            left++;
+            right--;
+        }
+        return true;
+    }
+
+    public String longestPalindrome(String s) {
+        int n = s.length();
+        String longestPalindrome = "";
+
+        for (int i = 0; i < n; i++) {
+            for (int j = i; j < n; j++) {  // Fix: j should start from i, not i + 1
+                String substring = s.substring(i, j + 1);  // Generate the substring
+                if (isPalindrome(substring)) {  // Check if the substring is a palindrome
+                    if (substring.length() > longestPalindrome.length()) {  // Update if it's longer
+                        longestPalindrome = substring;
+                    }
+                }
+            }
+        }
+        
+        // If a palindrome is found, return it; otherwise, return the first character
+        return longestPalindrome.isEmpty() ? s.substring(0, 1) : longestPalindrome;
+    }
+}

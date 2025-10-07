@@ -1,0 +1,22 @@
+ class Solution {
+    public List<Integer> findDisappearedNumbers(int[] nums) {
+        int n=nums.length;
+        List<Integer> finalist = new ArrayList<>();
+        Map<Integer, Integer> newmap= new HashMap<>();
+
+        for(int i=0;i<nums.length;i++){
+            newmap.put(nums[i], newmap.getOrDefault(nums[i], 0)+1);
+
+        }
+ 
+        for(int i=1;i<=n;i++){
+            if(newmap.getOrDefault(i,0)==0){ // map.get(i) returns null if no key is found,so always do getOrDefault.
+            finalist.add(i);
+
+            }
+
+        }
+        return finalist;
+
+    }
+}

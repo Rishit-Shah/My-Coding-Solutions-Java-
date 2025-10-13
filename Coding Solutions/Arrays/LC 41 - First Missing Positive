@@ -1,0 +1,23 @@
+
+
+class Solution {
+    public int firstMissingPositive(int[] nums) {
+        int n = nums.length;
+        boolean[] seen = new boolean[n+1];
+        for(int a:nums){
+                if(a>0 && a<=n){
+                    seen[a]=true;
+
+                }
+        }
+
+        for(int i=1;i<=n;i++){
+            if(!seen[i]){
+                return i;
+
+            }
+
+        }
+        return n+1;
+    }
+}

@@ -1,0 +1,48 @@
+
+import java.beans.FeatureDescriptor;/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public List<String> binaryTreePaths(TreeNode root) {
+        List<String> res= new ArrayList<>();
+        StringBuilder fstring= new StringBuilder();
+        helper(root, res, fstring);
+        return res;
+        
+    }
+
+    public void helper(TreeNode node, List<String> res, StringBuilder fstring){
+        if(node == null){
+            return;
+
+        }
+        int len = fstring.length();
+        fstring.append(node.val);
+        
+         
+         if (node.left == null && node.right == null) {
+            res.add(fstring.toString());
+        } else {
+            fstring.append("->");
+            helper(node.left, res, fstring);
+            helper(node.right, res, fstring);
+        }
+
+        fstring.setLength(len);
+
+
+    }
+
+}

@@ -6,9 +6,4 @@ i [right] == nums[right - 1]) right--; // skip duplicates
                     left++;
                 } else {
                     right--;
-                }
-            }
-        }
     
-    }
-}
